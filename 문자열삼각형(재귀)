@@ -1,0 +1,15 @@
+ #include <stdio.h>
+  char star[20];
+  void f(int n) { // 5
+		if (n == 0) return; // n이 0일 때 return
+		f(n - 1); // 0이 되기 전까지 계속 호출
+		star[n] = '*';
+		printf("%s\n", star+1);
+	} 
+
+
+ int main() {
+    int n;
+    scanf("%d", &n);
+    f(n);
+ }
