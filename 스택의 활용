@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define STACK_SIZE 20
+
+typedef char element;
+typedef struct {
+	element data[STACK_SIZE]; // element == int
+	int top;
+}Stack;
+
+void initStack( Stack *s );
+int isFull( Stack *s );
+int isEmpty( Stack *s );
+void push( Stack *s, element data );
+element pop( Stack *s );
+
+int main(){
+	int i;
+ 	Stack s;
+	char str[20];
+	printf("문자열 입력 : ");
+	scanf("%s", str);
+	initStack(&s);
+	for (i = 0; str[i] != '\0'; i++) {
+		push(&s, str[i]);
+	}
+	//문자열을 입력받아 거꾸로 출력
+	for (i = 0; str[i] != '\0'; i++) {
+		printf("%c", pop(&s));
+	}
+}
+
+void initStack( Stack *s ){
+	 s->top = -1;
+}
+int isFull( Stack *s ){
+	 return s->top == STACK_SIZE-1;
+}
+int isEmpty( Stack *s ){
+ return s->top == -1;
+}
+void push( Stack *s, element c ){
+	 if (isFull(s)) {
+		 printf("Stack is Full");
+		 return;
+	 }
+	s->top++;
+	s->data[s->top] = c;
+}
+element pop( Stack *s ){
+	if (isEmpty(s)) {
+		printf("Stack is Empty\n");
+		return -1;
+	}
+	return s->data[s->top--];
+}
