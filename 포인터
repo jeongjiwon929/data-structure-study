@@ -1,0 +1,60 @@
+(1)
+#include <stdio.h>
+main(){
+   char a[] ={'A', 'B','C','D','E','F'};
+   char* p;
+   p = &a[2];
+   printf("%c, %c\n", *p, *(p-2));
+}
+답 : CA
+(2)
+void swap(int* a, int* b){
+   int temp;
+   temp = *a;
+   (           )  
+   *b = temp;
+}
+
+int main(){
+  int a=10, b=20;
+  swap(&a, &b);
+  return 0;
+}
+답 : *a = *b;
+(3)
+int a = 5, b, *c;
+c = &a;
+b= ++*c;
+printf("%d",b);
+답: 6
+(4)
+int a=10, *b;
+
+b=&a;
+
+for(int i=0;i<5;i++)
+
+   *b += i;
+
+printf("%d",*b);
+답: 20
+(5)
+int a = 31,b, *c,*d;
+c = &a;
+d = &b;
+*d= --*c %3 ?a+a:a*a;
+//a = a-1
+//if(a % 3 == 1) b=a+a;
+//else if(a % 3 == 0) a*a;
+
+printf("%d",*d);
+답: 900
+(6)
+int a=5, b=7,c,*d;
+
+d = &c;
+
+*d = a & b; //(5 AND 7 =>  0101 & 0111 => 0101)
+
+printf("%d",c);
+답: 5
