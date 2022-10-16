@@ -1,0 +1,88 @@
+// 스택과 큐는 초기값이 -1이다. (비어있거나 놓을 수 없는 상태)
+// 0은 초기화 상태가 아니다⭐
+#include <stdio.h>
+#include <stdlib.h>
+typedef int element ; // element == int
+typedef struct {
+	element* data; //  data[20];의 형태가 아니기 때문에 동적할당 필요⭐
+	int front;
+	int rear;
+	int size; // 배열 전체의 길이
+}Queue;
+Queue *initQueue( int n );
+int isFull( Queue *q );
+void enQueue( Queue *q, element data );
+int isEmpty( Queue *q );
+element deQueue( Queue *q );
+void destroyQueue( Queue * q );
+void printAll( Queue *q );
+int main() {
+	Queue *q;
+	element data;
+	q = initQueue( 5 ); 
+	enQueue( q, 10 ) ;	printAll( q );
+	enQueue( q, 20 ) ;	printAll( q );
+	enQueue( q, 30 ) ;	printAll( q );
+	enQueue( q, 40 ) ;	printAll( q );
+	enQueue( q, 50 ) ;	printAll( q );
+	data = deQueue( q );	printAll( q );
+	enQueue( q, 60 ) ; 		printAll( q );
+	
+	destroyQueue( q );
+	return 0;
+}
+Queue* initQueue( int n ){ // 초기화 시키는 함수 (initQueue)
+	Queue *temp = (Queue *) malloc( sizeof(Queue) ); // queue 구조체 하나의 사이즈 만큼
+	temp -> size =  n;// n을 크기로 하는 큐
+	temp -> rear = -1; // -1로 초기화 
+	temp -> front = -1; // -1로 초기화
+	temp -> data = (element*)malloc(sizeof(element)*n);  // 크기 n 을 가지는 동적 배열 생성 (동적할당해줌)
+	return temp; // 구조체 하나를 return
+}
+int isFull( Queue *q ){ 
+	// 큐가 가득 차 있다면 rear 은 어떤 상태일까?
+	return  q->rear == q->size -1; // 참,거짓을 가리기 때문에 바로 조건문, MAX_Q_SIZE-1 최대 인덱스까지 가득 참
+}
+void enQueue( Queue *q, element data ){
+	 // 가득 차 있다면 "Queue is full"이라고 출력
+	if(isFull(q))
+		printf("Queue is full\n");
+	else { // 아니면 rear에 data 삽입
+		q->rear++;
+		q->data[q->rear] = data;
+	}
+}
+int isEmpty( Queue *q ){
+	// 큐가 비어 있따면 rear과 front 는 어떤 상태일까?
+	return q->rear == q->front; // 삭제를 계속 반복하면 결국엔 같아진다
+}
+element deQueue( Queue *q ){
+	// 비어 있다면 "Queue is empty" 출력하고 0 리턴
+	if(isEmpty(q)) {
+		printf("Queue is empty\n");
+		return 0;
+	}
+  // 아니면 front위치의 데이터 리턴
+	else {
+		q->front++;
+		return q->data[q->front]; // data 문자열
+	}
+}
+void printAll( Queue *q ){
+	// 0 부터 배열크기-1 에서  front+1 ~rear사이의 데이터만 출력
+	for (int i = 0; i < q->size; i++) { // q의 size보다 작으면
+		if(i <= q->front || i > q->rear) {
+			printf(" | ");
+		}
+		else {
+			printf("%d | ", q->data[i]);
+		}
+	}
+	printf("\n");
+}
+void destroyQueue( Queue * q ){
+	// data 동적 메모리 해제
+	free(q->data);
+	// q 동적 메모리 해제
+	free(q);
+}
